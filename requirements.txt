@@ -1,0 +1,4 @@
+PySide6>=6.5.0
+jedi>=0.18.0
+python-lsp-server>=1.7.0  # Für erweiterte Code-Analyse
+pyflakes>=3.0.0  # Für Syntax-Prüfung
