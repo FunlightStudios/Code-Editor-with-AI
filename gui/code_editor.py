@@ -55,6 +55,15 @@ class CodeEditor(QPlainTextEdit):
         # Theme-System
         self.theme_styles = WindsurfTheme.get_editor_styles(is_dark=True)
         
+        # Minimap Einstellungen
+        self._minimap_enabled = True
+        self._minimap = None
+        
+        # Update Timer für Performance-Optimierung
+        self._update_timer = QTimer()
+        self._update_timer.setSingleShot(True)
+        self._update_timer.timeout.connect(self._delayed_update)
+        
         # Zeilennummern
         self._line_numbers_enabled = True
         self.line_number_area = QWidget(self)
@@ -230,19 +239,20 @@ class CodeEditor(QPlainTextEdit):
         
     def wheelEvent(self, event):
         """Optimiertes Scroll-Event mit Minimap-Update."""
-        if event.modifiers() == Qt.ControlModifier:
-            # Zoom
+        if event.modifiers() & Qt.ControlModifier:
+            # Zoom mit Strg + Mausrad
             if event.angleDelta().y() > 0:
                 self.zoomIn(1)
             else:
                 self.zoomOut(1)
             event.accept()
         else:
+            # Normales Scrollen
             super().wheelEvent(event)
             
-            # Verzögertes Minimap-Update
-            if self._minimap_enabled:
-                QTimer.singleShot(50, self.update_minimap)
+            # Minimap-Update nur wenn aktiviert
+            if self._minimap_enabled and self._minimap:
+                self._minimap.update_viewport()
                 
     def toggle_feature(self, feature_name: str, enabled: bool):
         """Aktiviert/Deaktiviert Features für bessere Performance."""

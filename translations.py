@@ -1,7 +1,7 @@
 TRANSLATIONS = {
     "Deutsch": {
         # Hauptfenster Titel
-        "Code Editor": "Funlight Editor",
+        "Code Editor": "Code Editor",  
         "Funlight Editor": "Funlight Editor",
         
         # Menü "Datei"
@@ -23,6 +23,7 @@ TRANSLATIONS = {
         "Suchen": "Suchen",
         "Ersetzen": "Ersetzen",
         "Einstellungen": "Einstellungen",
+        "Alles auswählen": "Alles auswählen",
         
         # Einstellungsdialog
         "Settings": "Einstellungen",
@@ -38,12 +39,36 @@ TRANSLATIONS = {
         "Auto Indent": "Automatischer Einzug",
         "Show Line Numbers": "Zeilennummern anzeigen",
         "OK": "OK",
-        "Cancel": "Abbrechen"
+        "Cancel": "Abbrechen",
+        
+        # AI Assistent
+        "AI Assistent": "KI-Assistent",
+        "OpenAI API Key": "OpenAI API-Schlüssel",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "Bitte geben Sie Ihren OpenAI API-Schlüssel ein:",
+        "Warnung": "Warnung",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "KI-Assistent ist ohne API-Schlüssel nicht verfügbar.",
+        "Code Analysieren": "Code analysieren",
+        "Vorschläge": "Vorschläge",
+        "Code Bearbeiten": "Code bearbeiten",
+        "Stelle eine Frage oder gib eine Anweisung...": "Stelle eine Frage oder gib eine Anweisung...",
+        "Code-Änderung bestätigen": "Code-Änderung bestätigen",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "Möchten Sie die vorgeschlagenen Änderungen anwenden?",
+        "Kein Code zum Analysieren gefunden.": "Kein Code zum Analysieren gefunden.",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "Bitte geben Sie eine Frage oder Anweisung ein.",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "Bitte geben Sie eine Anweisung für die Code-Änderung ein.",
+        "Kein Code zum Bearbeiten gefunden.": "Kein Code zum Bearbeiten gefunden.",
+        
+        # Sonstiges
+        "Löschen bestätigen": "Löschen bestätigen",
+        "Möchten Sie diese Datei wirklich löschen?": "Möchten Sie diese Datei wirklich löschen?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "Möchten Sie diesen Ordner wirklich löschen?",
+        "Fehler": "Fehler",
+        "Fehler beim Löschen": "Fehler beim Löschen"
     },
     
     "English": {
         # Main Window Title
-        "Code Editor": "Funlight Editor",
+        "Code Editor": "Code Editor",
         "Funlight Editor": "Funlight Editor",
         
         # Menu Items - Using the German keys with English translations
@@ -64,6 +89,7 @@ TRANSLATIONS = {
         "Suchen": "Find",
         "Ersetzen": "Replace",
         "Einstellungen": "Settings",
+        "Alles auswählen": "Select All",
         
         # Settings Dialog
         "Settings": "Settings",
@@ -79,7 +105,31 @@ TRANSLATIONS = {
         "Auto Indent": "Auto Indent",
         "Show Line Numbers": "Show Line Numbers",
         "OK": "OK",
-        "Cancel": "Cancel"
+        "Cancel": "Cancel",
+        
+        # AI Assistant
+        "AI Assistent": "AI Assistant",
+        "OpenAI API Key": "OpenAI API Key",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "Please enter your OpenAI API Key:",
+        "Warnung": "Warning",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "AI Assistant is not available without API Key.",
+        "Code Analysieren": "Analyze Code",
+        "Vorschläge": "Suggestions",
+        "Code Bearbeiten": "Edit Code",
+        "Stelle eine Frage oder gib eine Anweisung...": "Ask a question or give an instruction...",
+        "Code-Änderung bestätigen": "Confirm Code Change",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "Do you want to apply the suggested changes?",
+        "Kein Code zum Analysieren gefunden.": "No code found to analyze.",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "Please enter a question or instruction.",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "Please enter an instruction for the code change.",
+        "Kein Code zum Bearbeiten gefunden.": "No code found to edit.",
+        
+        # Sonstiges
+        "Löschen bestätigen": "Confirm Deletion",
+        "Möchten Sie diese Datei wirklich löschen?": "Are you sure you want to delete this file?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "Are you sure you want to delete this folder?",
+        "Fehler": "Error",
+        "Fehler beim Löschen": "Error deleting"
     },
     "Français": {
         # Titre de la fenêtre principale
@@ -129,6 +179,31 @@ TRANSLATIONS = {
         "Search for": "Rechercher",
         "Replace with": "Remplacer par",
         "Code Editor": "Éditeur de code",
+        "Alles auswählen": "Sélectionner tout",
+        
+        # AI Assistant
+        "AI Assistent": "Assistant IA",
+        "OpenAI API Key": "Clé API OpenAI",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "Veuillez entrer votre clé API OpenAI :",
+        "Warnung": "Avertissement",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "L'assistant IA n'est pas disponible sans clé API.",
+        "Code Analysieren": "Analyser le code",
+        "Vorschläge": "Suggestions",
+        "Code Bearbeiten": "Éditer le code",
+        "Stelle eine Frage oder gib eine Anweisung...": "Posez une question ou donnez une instruction...",
+        "Code-Änderung bestätigen": "Confirmer la modification de code",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "Voulez-vous appliquer les modifications suggérées ?",
+        "Kein Code zum Analysieren gefunden.": "Aucun code trouvé à analyser.",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "Veuillez entrer une question ou une instruction.",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "Veuillez entrer une instruction pour la modification de code.",
+        "Kein Code zum Bearbeiten gefunden.": "Aucun code trouvé à éditer.",
+        
+        # Sonstiges
+        "Löschen bestätigen": "Confirmer la suppression",
+        "Möchten Sie diese Datei wirklich löschen?": "Voulez-vous vraiment supprimer ce fichier ?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "Voulez-vous vraiment supprimer ce dossier ?",
+        "Fehler": "Erreur",
+        "Fehler beim Löschen": "Erreur lors de la suppression"
     },
     "Español": {
         # Título de la ventana principal
@@ -178,6 +253,31 @@ TRANSLATIONS = {
         "Search for": "Buscar",
         "Replace with": "Reemplazar con",
         "Code Editor": "Editor de código",
+        "Alles auswählen": "Seleccionar todo",
+        
+        # AI Assistant
+        "AI Assistent": "Asistente de IA",
+        "OpenAI API Key": "Clave API de OpenAI",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "Por favor, ingrese su clave API de OpenAI:",
+        "Warnung": "Advertencia",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "El asistente de IA no está disponible sin clave API.",
+        "Code Analysieren": "Analizar código",
+        "Vorschläge": "Sugerencias",
+        "Code Bearbeiten": "Editar código",
+        "Stelle eine Frage oder gib eine Anweisung...": "Haga una pregunta o dé una instrucción...",
+        "Code-Änderung bestätigen": "Confirmar cambio de código",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "¿Desea aplicar los cambios sugeridos?",
+        "Kein Code zum Analysieren gefunden.": "No se encontró código para analizar.",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "Por favor, ingrese una pregunta o instrucción.",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "Por favor, ingrese una instrucción para el cambio de código.",
+        "Kein Code zum Bearbeiten gefunden.": "No se encontró código para editar.",
+        
+        # Sonstiges
+        "Löschen bestätigen": "Confirmar eliminación",
+        "Möchten Sie diese Datei wirklich löschen?": "¿Desea eliminar este archivo?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "¿Desea eliminar esta carpeta?",
+        "Fehler": "Error",
+        "Fehler beim Löschen": "Error al eliminar"
     },
     "中文": {
         # 主窗口标题
@@ -227,6 +327,31 @@ TRANSLATIONS = {
         "Search for": "搜索",
         "Replace with": "替换为",
         "Code Editor": "代码编辑器",
+        "Alles auswählen": "全选",
+        
+        # AI Assistant
+        "AI Assistent": "AI助手",
+        "OpenAI API Key": "OpenAI API密钥",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "请输入您的OpenAI API密钥:",
+        "Warnung": "警告",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "AI助手在没有API密钥的情况下不可用。",
+        "Code Analysieren": "分析代码",
+        "Vorschläge": "建议",
+        "Code Bearbeiten": "编辑代码",
+        "Stelle eine Frage oder gib eine Anweisung...": "提出一个问题或给出一个指令...",
+        "Code-Änderung bestätigen": "确认代码更改",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "您是否要应用建议的更改?",
+        "Kein Code zum Analysieren gefunden.": "没有找到要分析的代码。",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "请输入一个问题或指令。",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "请输入一个指令来更改代码。",
+        "Kein Code zum Bearbeiten gefunden.": "没有找到要编辑的代码。",
+        
+        # Sonstiges
+        "Löschen bestätigen": "确认删除",
+        "Möchten Sie diese Datei wirklich löschen?": "您确定要删除这个文件吗?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "您确定要删除这个文件夹吗?",
+        "Fehler": "错误",
+        "Fehler beim Löschen": "删除错误"
     },
     "日本語": {
         # メインウィンドウのタイトル
@@ -276,6 +401,31 @@ TRANSLATIONS = {
         "Search for": "検索",
         "Replace with": "置換する",
         "Code Editor": "コードエディター",
+        "Alles auswählen": "すべて選択",
+        
+        # AI Assistant
+        "AI Assistent": "AIアシスタント",
+        "OpenAI API Key": "OpenAI APIキー",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "OpenAI APIキーを入力してください:",
+        "Warnung": "警告",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "AIアシスタントはAPIキーなしでは利用できません。",
+        "Code Analysieren": "コード分析",
+        "Vorschläge": "提案",
+        "Code Bearbeiten": "コード編集",
+        "Stelle eine Frage oder gib eine Anweisung...": "質問をしてください、または指示を与えてください...",
+        "Code-Änderung bestätigen": "コード変更を確認",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "提案された変更を適用しますか?",
+        "Kein Code zum Analysieren gefunden.": "分析するコードが見つかりませんでした。",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "質問を入力してください、または指示を与えてください。",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "コード変更の指示を入力してください。",
+        "Kein Code zum Bearbeiten gefunden.": "編集するコードが見つかりませんでした。",
+        
+        # Sonstiges
+        "Löschen bestätigen": "削除を確認",
+        "Möchten Sie diese Datei wirklich löschen?": "このファイルを本当に削除しますか?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "このフォルダを本当に削除しますか?",
+        "Fehler": "エラー",
+        "Fehler beim Löschen": "削除エラー"
     },
     "Italiano": {
         # Titolo della finestra principale
@@ -325,6 +475,31 @@ TRANSLATIONS = {
         "Search for": "Cerca",
         "Replace with": "Sostituisci con",
         "Code Editor": "Editor di codice",
+        "Alles auswählen": "Seleziona tutto",
+        
+        # AI Assistant
+        "AI Assistent": "Assistente di IA",
+        "OpenAI API Key": "Chiave API di OpenAI",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "Inserisci la tua chiave API di OpenAI:",
+        "Warnung": "Avviso",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "L'assistente di IA non è disponibile senza chiave API.",
+        "Code Analysieren": "Analizza codice",
+        "Vorschläge": "Suggerimenti",
+        "Code Bearbeiten": "Modifica codice",
+        "Stelle eine Frage oder gib eine Anweisung...": "Fai una domanda o dai un'istruzione...",
+        "Code-Änderung bestätigen": "Conferma modifica codice",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "Vuoi applicare le modifiche suggerite?",
+        "Kein Code zum Analysieren gefunden.": "Non è stato trovato codice da analizzare.",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "Inserisci una domanda o un'istruzione.",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "Inserisci un'istruzione per la modifica del codice.",
+        "Kein Code zum Bearbeiten gefunden.": "Non è stato trovato codice da modificare.",
+        
+        # Sonstiges
+        "Löschen bestätigen": "Conferma cancellazione",
+        "Möchten Sie diese Datei wirklich löschen?": "Vuoi cancellare questo file?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "Vuoi cancellare questa cartella?",
+        "Fehler": "Errore",
+        "Fehler beim Löschen": "Errore durante la cancellazione"
     },
     "हिंदी": {
         # मुख्य विंडो शीर्षक
@@ -374,5 +549,30 @@ TRANSLATIONS = {
         "Search for": "खोजें",
         "Replace with": "के साथ बदलें",
         "Code Editor": "कोड संपादक",
+        "Alles auswählen": "सब कुछ चुनें",
+        
+        # AI Assistant
+        "AI Assistent": "एआई सहायक",
+        "OpenAI API Key": "ओपनएआई एपीआई कुंजी",
+        "Bitte geben Sie Ihren OpenAI API Key ein:": "कृपया अपनी ओपनएआई एपीआई कुंजी दर्ज करें:",
+        "Warnung": "चेतावनी",
+        "AI Assistent ist ohne API Key nicht verfügbar.": "एआई सहायक एपीआई कुंजी के बिना उपलब्ध नहीं है।",
+        "Code Analysieren": "कोड विश्लेषण",
+        "Vorschläge": "सुझाव",
+        "Code Bearbeiten": "कोड संपादित करें",
+        "Stelle eine Frage oder gib eine Anweisung...": "एक प्रश्न पूछें या एक निर्देश दें...",
+        "Code-Änderung bestätigen": "कोड परिवर्तन की पुष्टि करें",
+        "Möchten Sie die vorgeschlagenen Änderungen anwenden?": "क्या आप सुझाए गए परिवर्तनों को लागू करना चाहते हैं?",
+        "Kein Code zum Analysieren gefunden.": "विश्लेषण करने के लिए कोई कोड नहीं मिला।",
+        "Bitte geben Sie eine Frage oder Anweisung ein.": "कृपया एक प्रश्न या निर्देश दर्ज करें।",
+        "Bitte geben Sie eine Anweisung für die Code-Änderung ein.": "कृपया कोड परिवर्तन के लिए एक निर्देश दर्ज करें।",
+        "Kein Code zum Bearbeiten gefunden.": "संपादित करने के लिए कोई कोड नहीं मिला।",
+        
+        # Sonstiges
+        "Löschen bestätigen": "हटाना पुष्टि करें",
+        "Möchten Sie diese Datei wirklich löschen?": "क्या आप वास्तव में इस फ़ाइल को हटाना चाहते हैं?",
+        "Möchten Sie diesen Ordner wirklich löschen?": "क्या आप वास्तव में इस फ़ोल्डर को हटाना चाहते हैं?",
+        "Fehler": "त्रुटि",
+        "Fehler beim Löschen": "हटाने में त्रुटि"
     }
 }

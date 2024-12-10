@@ -4,13 +4,14 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import (
     QMainWindow, QApplication, QVBoxLayout, QHBoxLayout, 
     QWidget, QFrame, QMenuBar, QLabel, QPushButton, QMenu,
-    QInputDialog, QMessageBox
+    QInputDialog, QMessageBox, QDockWidget, QLineEdit
 )
 from PySide6.QtGui import QFontMetricsF, QKeySequence, QAction
 from gui.editor_window import EditorWindow
 from gui.sidebar import SidebarIcons
 from themes import WindsurfTheme
 from chatgpt_api import ChatGPTAPI
+from gui.ai_assistant import AIAssistant
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -155,20 +156,51 @@ class MainWindow(QMainWindow):
         self.title_bar.mousePressEvent = self._title_bar_mouse_press
         self.title_bar.mouseMoveEvent = self._title_bar_mouse_move
         
-        # Schritt 3: Integration der ChatGPT API
-        from chatgpt_api import ChatGPTAPI
+        # ChatGPT API initialisieren
+        self.init_chatgpt_api()
+        
+    def init_chatgpt_api(self):
+        """Initialisiert die ChatGPT API."""
+        self.chatgpt_api = ChatGPTAPI()
+        self.setup_ai_assistant()
 
-        # Initialisierung der ChatGPT API mit dem API-Schlüssel
-        self.chatgpt_api = ChatGPTAPI(api_key='DEIN_API_KEY_HIER_EINFÜGEN')
+    def setup_ai_assistant(self):
+        """Initialisiert und konfiguriert den AI Assistenten."""
+        self.ai_assistant = AIAssistant(self.chatgpt_api)
+        self.ai_assistant_dock = QDockWidget("AI Assistent", self)
+        self.ai_assistant_dock.setWidget(self.ai_assistant)
+        self.ai_assistant_dock.setAllowedAreas(Qt.LeftDockWidgetArea | Qt.RightDockWidgetArea)
+        self.addDockWidget(Qt.RightDockWidgetArea, self.ai_assistant_dock)
+        
+        # Verbinde den AI Assistenten mit dem aktuellen Editor
+        self.editor_window.tab_widget.currentChanged.connect(self._update_ai_assistant_content)
+        self.ai_assistant.code_edit_requested.connect(self._handle_ai_code_edit)
 
-        # Funktion zur Anforderung von AI-Hilfe
+    def _update_ai_assistant_content(self):
+        """Aktualisiert den Code im AI Assistenten wenn sich der Editor ändert."""
+        current_container = self.editor_window.get_current_editor()
+        if current_container and hasattr(current_container, 'editor'):
+            code = current_container.editor.toPlainText()
+            self.ai_assistant.set_editor_content(code)
+            # Aktualisiere auch das Theme
+            is_dark = self.editor_window.current_theme == "dark"
+            self.ai_assistant.apply_theme(is_dark)
 
-    def request_ai_help(self, prompt):
-        response = self.chatgpt_api.get_response(prompt)
-        if response:
-            return response['choices'][0]['message']['content']
-        else:
-            return 'Fehler bei der Anfrage an die AI.'
+    def _handle_ai_code_edit(self, new_code):
+        """Verarbeitet Code-Änderungsvorschläge vom AI Assistenten."""
+        current_container = self.editor_window.get_current_editor()
+        if not current_container or not hasattr(current_container, 'editor'):
+            return
+            
+        reply = QMessageBox.question(
+            self,
+            "Code-Änderung bestätigen",
+            "Möchten Sie die vorgeschlagenen Code-Änderungen übernehmen?",
+            QMessageBox.Yes | QMessageBox.No
+        )
+        
+        if reply == QMessageBox.Yes:
+            current_container.editor.setPlainText(new_code)
 
     def tr(self, text):
         """Übersetzt einen Text in die aktuelle Sprache."""
@@ -179,12 +211,14 @@ class MainWindow(QMainWindow):
         return text
 
     def _title_bar_mouse_press(self, event):
+        """Behandelt Mausklicks auf die Titelleiste."""
         if event.button() == Qt.LeftButton:
-            self._drag_pos = event.globalPos() - self.frameGeometry().topLeft()
-            
+            self._drag_pos = event.globalPosition().toPoint() - self.frameGeometry().topLeft()
+
     def _title_bar_mouse_move(self, event):
-        if self._drag_pos is not None:
-            self.move(event.globalPos() - self._drag_pos)
+        """Behandelt Mausbewegungen auf der Titelleiste."""
+        if event.buttons() & Qt.LeftButton:
+            self.move(event.globalPosition().toPoint() - self._drag_pos)
             
     def toggle_maximize(self):
         if self.isMaximized():
@@ -286,6 +320,35 @@ class MainWindow(QMainWindow):
         if ok and text:
             response = self.request_ai_help(text)
             QMessageBox.information(self, 'AI Antwort', response)
+
+    def request_ai_help(self, prompt):
+        response = self.chatgpt_api.get_response(prompt)
+        if response:
+            return response['choices'][0]['message']['content']
+        else:
+            return 'Fehler bei der Anfrage an die AI.'
+
+    def update_current_file(self):
+        """Aktualisiert die aktuelle Datei im AI Assistant."""
+        editor = self.editor_window.get_current_editor()
+        if editor:
+            file_path = editor.file_path if hasattr(editor, 'file_path') else None
+            if file_path:
+                self.ai_assistant.set_current_file(file_path, editor.toPlainText())
+            else:
+                self.ai_assistant.set_current_file(None, editor.toPlainText())
+        else:
+            self.ai_assistant.set_current_file(None, "")
+
+    def on_tab_changed(self, index):
+        """Wird aufgerufen, wenn der aktive Tab sich ändert."""
+        super().on_tab_changed(index)
+        self.update_current_file()
+
+    def on_file_saved(self):
+        """Wird aufgerufen, wenn eine Datei gespeichert wird."""
+        super().on_file_saved()
+        self.update_current_file()
 
 def main():
     app = QApplication([])

@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
     QMenu, QStatusBar, QDialog, QMessageBox, QInputDialog,
     QStackedWidget, QTreeWidget, QHBoxLayout, QFrame, QTabBar
 )
-from PySide6.QtCore import Qt, QDir, QEvent
+from PySide6.QtCore import Qt, QDir, QEvent, Signal
 from PySide6.QtGui import QPalette, QColor, QAction, QKeySequence
 from .code_editor import CodeEditor, EditorContainer
 from .dialogs.search_dialog import SearchDialog
@@ -17,8 +17,12 @@ import sys
 
 class EditorWindow(QMainWindow):
     """Hauptfenster des Editors."""
+    current_editor_changed = Signal()  # Signal für Editor-Wechsel
+    
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.current_editor = None
+        self.current_file = None
         
         # Grundeinstellungen
         self.current_theme = "dark"
@@ -81,6 +85,7 @@ class EditorWindow(QMainWindow):
         self.tab_widget.setMovable(True)
         self.tab_widget.setDocumentMode(True)
         self.tab_widget.tabCloseRequested.connect(self.close_tab)
+        self.tab_widget.currentChanged.connect(self._handle_tab_change)
         self.tab_widget.setMinimumWidth(200)
         self.tab_widget.setAcceptDrops(True)
         self.tab_widget.tabBar().setAcceptDrops(True)
@@ -113,7 +118,6 @@ class EditorWindow(QMainWindow):
         
         # Offene Dateien und aktiver Tab
         self.open_files = {}
-        self.current_file = None
         
         # UI-Einrichtung
         self.setup_status_bar()
@@ -246,12 +250,12 @@ class EditorWindow(QMainWindow):
         current_editor = self.get_current_editor()
         if current_editor:
             # Zeilen zählen
-            text = current_editor.toPlainText()
+            text = current_editor.editor.toPlainText()
             total_lines = text.count('\n') + 1
             code_lines = sum(1 for line in text.split('\n') if line.strip() and not line.strip().startswith('#'))
             
             # Cursor-Position
-            cursor = current_editor.textCursor()
+            cursor = current_editor.editor.textCursor()
             line = cursor.blockNumber() + 1
             col = cursor.columnNumber() + 1
             
@@ -365,6 +369,8 @@ class EditorWindow(QMainWindow):
         editor.update_theme(self.current_theme)
         editor.setProperty("file_path", "")
         self.update_status_bar()
+        self.current_editor = editor
+        self.current_editor_changed.emit()
 
     def open_file(self):
         file_path, _ = QFileDialog.getOpenFileName(self, self.tr("Open File"))
@@ -383,7 +389,7 @@ class EditorWindow(QMainWindow):
             # Prüfen ob die Datei bereits geöffnet ist
             for i in range(self.tab_widget.count()):
                 editor = self.get_editor_at(i)
-                if editor and editor.property("file_path") == file_path:
+                if editor and editor.editor.property("file_path") == file_path:
                     self.tab_widget.setCurrentIndex(i)
                     return
 
@@ -406,6 +412,8 @@ class EditorWindow(QMainWindow):
             # Theme aktualisieren
             editor.update_theme(self.current_theme == "dark")
             self.update_status_bar()
+            self.current_editor = container
+            self.current_editor_changed.emit()
                 
         except Exception as e:
             error_msg = f"Fehler beim Öffnen der Datei: {str(e)}"
@@ -417,13 +425,13 @@ class EditorWindow(QMainWindow):
         if not current_editor:
             return
 
-        path = current_editor.property("file_path")
+        path = current_editor.editor.property("file_path")
         if not path:
             self.save_file_as()
             return
 
         with open(path, "w", encoding="utf-8") as file:
-            file.write(current_editor.toPlainText())
+            file.write(current_editor.editor.toPlainText())
 
     def save_file_as(self):
         current_editor = self.get_current_editor()
@@ -436,8 +444,8 @@ class EditorWindow(QMainWindow):
         )
         if path:
             with open(path, "w", encoding="utf-8") as file:
-                file.write(current_editor.toPlainText())
-            current_editor.setProperty("file_path", path)
+                file.write(current_editor.editor.toPlainText())
+            current_editor.editor.setProperty("file_path", path)
             self.tab_widget.setTabText(
                 self.tab_widget.currentIndex(),
                 os.path.basename(path)
@@ -713,30 +721,30 @@ class EditorWindow(QMainWindow):
 
     def undo(self):
         if editor := self.get_current_editor():
-            editor.undo()
+            editor.editor.undo()
 
     def redo(self):
         if editor := self.get_current_editor():
-            editor.redo()
+            editor.editor.redo()
 
     def cut(self):
         if editor := self.get_current_editor():
-            editor.cut()
+            editor.editor.cut()
 
     def copy(self):
         if editor := self.get_current_editor():
-            editor.copy()
+            editor.editor.copy()
 
     def paste(self):
         if editor := self.get_current_editor():
-            editor.paste()
+            editor.editor.paste()
 
     def show_search_dialog(self):
         """Zeigt den Suchdialog."""
         current_editor = self.get_current_editor()
         if current_editor:
             dialog = SearchDialog(self)
-            dialog.search_requested.connect(current_editor.find_text)
+            dialog.search_requested.connect(current_editor.editor.find_text)
             dialog.exec()
 
     def show_replace_dialog(self):
@@ -744,28 +752,28 @@ class EditorWindow(QMainWindow):
         current_editor = self.get_current_editor()
         if current_editor:
             dialog = SearchDialog(self, replace_mode=True)
-            dialog.search_requested.connect(current_editor.find_text)
-            dialog.replace_requested.connect(current_editor.replace_text)
-            dialog.replace_all_requested.connect(current_editor.replace_all_text)
+            dialog.search_requested.connect(current_editor.editor.find_text)
+            dialog.replace_requested.connect(current_editor.editor.replace_text)
+            dialog.replace_all_requested.connect(current_editor.editor.replace_all_text)
             dialog.exec()
 
     def find_text(self, text, case_sensitive=False, whole_words=False, search_forward=True):
         """Sucht Text im aktuellen Editor."""
         current_editor = self.get_current_editor()
         if current_editor:
-            current_editor.find_text(text, case_sensitive, whole_words, search_forward)
+            current_editor.editor.find_text(text, case_sensitive, whole_words, search_forward)
 
     def replace_text(self, find_text, replace_text, case_sensitive=False, whole_words=False):
         """Ersetzt Text im aktuellen Editor."""
         current_editor = self.get_current_editor()
         if current_editor:
-            current_editor.replace_text(find_text, replace_text, case_sensitive, whole_words)
+            current_editor.editor.replace_text(find_text, replace_text, case_sensitive, whole_words)
 
     def replace_all_text(self, find_text, replace_text, case_sensitive=False, whole_words=False):
         """Ersetzt allen Text im aktuellen Editor."""
         current_editor = self.get_current_editor()
         if current_editor:
-            current_editor.replace_all_text(find_text, replace_text, case_sensitive, whole_words)
+            current_editor.editor.replace_all_text(find_text, replace_text, case_sensitive, whole_words)
 
     def retranslateUi(self):
         """Aktualisiert alle übersetzbaren Texte."""
@@ -805,17 +813,17 @@ class EditorWindow(QMainWindow):
         return text
 
     def get_current_editor(self):
-        """Gibt den aktuellen Editor zurück."""
+        """Gibt den aktuellen Editor-Container zurück."""
         current_tab = self.tab_widget.currentWidget()
-        if current_tab and hasattr(current_tab, 'editor'):
-            return current_tab.editor
+        if isinstance(current_tab, EditorContainer):
+            return current_tab
         return None
 
     def get_editor_at(self, index):
-        """Gibt den Editor am angegebenen Tab-Index zurück."""
-        widget = self.tab_widget.widget(index)
-        if isinstance(widget, EditorContainer):
-            return widget.editor
+        """Gibt den Editor-Container am angegebenen Tab-Index zurück."""
+        tab = self.tab_widget.widget(index)
+        if isinstance(tab, EditorContainer):
+            return tab
         return None
 
     def update_editor_themes(self):
@@ -823,7 +831,7 @@ class EditorWindow(QMainWindow):
         for i in range(self.tab_widget.count()):
             editor = self.get_editor_at(i)
             if editor:
-                editor.update_theme(self.current_theme == "dark")
+                editor.editor.update_theme(self.current_theme == "dark")
 
     def show_file_tree(self):
         """Zeigt den Dateibaum an."""
@@ -835,15 +843,16 @@ class EditorWindow(QMainWindow):
         # Aktuellen Editor an die Suche übergeben
         current_editor = self.get_current_editor()
         if current_editor:
-            self.search_widget.set_editor(current_editor)
+            self.search_widget.set_editor(current_editor.editor)
         self.search_widget.search_input.setFocus()
 
-    def get_current_editor(self):
-        """Gibt den aktuellen Editor zurück."""
-        current_tab = self.tab_widget.currentWidget()
-        if current_tab and hasattr(current_tab, 'editor'):
-            return current_tab.editor
-        return None
+    def _handle_tab_change(self, index):
+        """Behandelt Änderungen des aktiven Tabs."""
+        if index >= 0:
+            self.current_editor = self.tab_widget.widget(index)
+        else:
+            self.current_editor = None
+        self.current_editor_changed.emit()
 
     def show_settings_dialog(self):
         """Zeigt den Einstellungen-Dialog an."""
@@ -872,12 +881,12 @@ class EditorWindow(QMainWindow):
             for i in range(self.tab_widget.count()):
                 editor = self.get_editor_at(i)
                 if editor:
-                    font = editor.font()
+                    font = editor.editor.font()
                     font.setPointSize(settings["font_size"])
-                    editor.setFont(font)
-                    editor.setTabStopDistance(settings["tab_size"] * editor.fontMetrics().horizontalAdvance(' '))
-                    if hasattr(editor, "auto_indent"):
-                        editor.auto_indent = settings["auto_indent"]
+                    editor.editor.setFont(font)
+                    editor.editor.setTabStopDistance(settings["tab_size"] * editor.editor.fontMetrics().horizontalAdvance(' '))
+                    if hasattr(editor.editor, "auto_indent"):
+                        editor.editor.auto_indent = settings["auto_indent"]
 
     def eventFilter(self, obj, event):
         """Event-Filter für Tab-Drag-Operationen."""
