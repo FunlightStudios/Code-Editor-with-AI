@@ -1,5 +1,8 @@
 # Funlight Editor
 
+# ⚠️ Work in Progress
+This project is under active development and not production-ready yet.
+
 A modern, intelligent code editor with integrated AI assistance powered by OpenAI's GPT models.
 
 ![Python Version](https://img.shields.io/badge/python-3.11%2B-blue)
