@@ -3,7 +3,7 @@
 # ⚠️ Work in Progress
 This project is under active development and not production-ready yet.
 
-A modern, intelligent code editor with integrated AI assistance powered by OpenAI's GPT models.
+A modern, intelligent code editor with integrated AI assistance powered by OpenAI's GPT models or Claude 3.5 Sonnet. (DeepSeek coming soon)
 
 ![Python Version](https://img.shields.io/badge/python-3.11%2B-blue)
 ![PySide6](https://img.shields.io/badge/PySide6-latest-green)
