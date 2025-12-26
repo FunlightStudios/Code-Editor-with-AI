@@ -40,7 +40,7 @@ A modern, intelligent code editor with integrated AI assistance powered by OpenA
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/funlight-editor.git
+git clone https://github.com/FunlightStudios/Code-Editor-with-AI.git
 cd funlight-editor
 ```
 
